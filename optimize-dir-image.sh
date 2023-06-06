@@ -4,5 +4,5 @@
 DIR=$1
 
 for file in `find $DIR -name '*.JPG'`; do
-  echo $file
+  echo `basename $file .JPG`
 done
