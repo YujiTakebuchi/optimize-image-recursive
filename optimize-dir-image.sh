@@ -12,8 +12,9 @@ for dir in `find . -type d -depth 1 -maxdepth 1`; do
     DIST="opt-$dirName"
     mkdir $DIST
     echo $DIST
-    for file in `find $dir -name '*.JPG'`; do
-        fileName=`basename $file .JPG`
+    for file in `find $dir -name '*.JPG' -or -name '*.jpg' -or -name '*.jpeg'`; do
+        ext=${file##*.}
+        fileName=`basename $file .$ext`
         echo $fileName
         ffmpeg -i $file -vf "scale=1280:-1" -q 2 "${DIST}/${fileName}.JPG" -loglevel error
     done
