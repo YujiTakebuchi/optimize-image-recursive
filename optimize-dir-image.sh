@@ -12,11 +12,15 @@ for dir in `find . -type d -depth 1 -maxdepth 1`; do
     DIST="opt-$dirName"
     mkdir $DIST
     echo $DIST
-    for file in `find $dir -name '*.JPG' -or -name '*.jpg' -or -name '*.jpeg'`; do
+    for file in `find $dir -name '*.JPG' -or -name '*.jpg' -or -name '*.jpeg' -or -name '*.png'`; do
         ext=${file##*.}
         fileName=`basename $file .$ext`
         echo $fileName
-        ffmpeg -i $file -vf "scale=1280:-1" -q 2 "${DIST}/${fileName}.JPG" -loglevel error
+        if [[ $ext = "png" ]]; then
+            cp $file ${DIST}/${fileName}.${ext}
+        else
+            ffmpeg -i $file -vf "scale=720:-1" -q 2 "${DIST}/${fileName}.${ext}" -loglevel error
+        fi
     done
 done
 
